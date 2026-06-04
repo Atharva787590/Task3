@@ -7,65 +7,98 @@
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 </head>
-<body>
+<body class="weather-default">
   <main class="app">
-    <section class="weather-dashboard">
-      <header class="header-card">
-        <p class="eyebrow">Task 3</p>
-        <h1>Weather Dashboard</h1>
-        <p class="subtitle">
-          Search any city to fetch live weather data using asynchronous JavaScript and a public REST API.
-        </p>
+    <section class="dashboard-shell">
+      <header class="hero-card">
+        <div>
+          <p class="eyebrow">Task 3</p>
+          <h1>Weather Dashboard</h1>
+          <p class="subtitle">
+            Search a city or place to fetch real-time weather using asynchronous JavaScript and a public REST API.
+          </p>
+        </div>
       </header>
 
       <section class="search-card">
-        <form id="weather-form" class="weather-form">
-          <label for="city-input" class="sr-only">Search city</label>
-          <input
-            id="city-input"
-            type="text"
-            placeholder="Enter city name..."
-            autocomplete="off"
-          />
+        <form id="search-form" class="search-form" autocomplete="off">
+          <div class="search-field">
+            <label class="sr-only" for="location-input">Search location</label>
+            <input
+              id="location-input"
+              type="text"
+              placeholder="Search city or place..."
+              autocomplete="off"
+            />
+            <div id="suggestions" class="suggestions hidden"></div>
+          </div>
           <button type="submit">Search</button>
         </form>
+
         <p id="status-message" class="status-message" aria-live="polite"></p>
       </section>
 
-      <section id="weather-result" class="weather-result hidden">
-        <div class="location-card">
+      <section class="saved-panel">
+        <div class="panel-heading">
           <div>
-            <p class="label">Location</p>
-            <h2 id="city-name">--</h2>
-            <p id="region-name" class="muted">--</p>
+            <p class="eyebrow">Saved Places</p>
+            <h2>Swipe through saved weather</h2>
           </div>
-          <div id="condition-badge" class="condition-badge">--</div>
+          <p class="panel-note">Use + to save the current place</p>
         </div>
 
-        <div class="metrics-grid">
-          <article class="metric-card">
-            <p class="label">Temperature</p>
-            <h3 id="temperature">--</h3>
-          </article>
+        <div id="saved-track" class="saved-track"></div>
+        <p id="saved-empty" class="saved-empty">No saved places yet. Search and save a place to see it here.</p>
+      </section>
 
-          <article class="metric-card">
-            <p class="label">Humidity</p>
-            <h3 id="humidity">--</h3>
-          </article>
+      <section id="weather-dashboard" class="weather-dashboard hidden">
+        <section class="current-card">
+          <div class="current-top">
+            <div>
+              <p class="label">Current Location</p>
+              <h2 id="location-name">--</h2>
+              <p id="location-subtitle" class="muted">--</p>
+            </div>
 
-          <article class="metric-card">
-            <p class="label">Wind Speed</p>
-            <h3 id="wind-speed">--</h3>
-          </article>
+            <div class="top-actions">
+              <button id="save-place-btn" class="icon-btn" type="button" title="Save current place">+</button>
+              <button id="refresh-btn" class="secondary-btn" type="button">Refresh</button>
+            </div>
+          </div>
 
-          <article class="metric-card">
-            <p class="label">Condition</p>
-            <h3 id="condition-text">--</h3>
-          </article>
-        </div>
+          <div class="condition-row">
+            <div id="condition-icon" class="condition-icon">☀️</div>
+            <div>
+              <div id="condition-badge" class="condition-badge">--</div>
+              <p id="updated-time" class="muted">--</p>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card">
+              <p class="metric-label">Temperature</p>
+              <h3 id="temperature">--</h3>
+            </article>
+
+            <article class="metric-card">
+              <p class="metric-label">Humidity</p>
+              <h3 id="humidity">--</h3>
+            </article>
+
+            <article class="metric-card">
+              <p class="metric-label">Wind Speed</p>
+              <h3 id="wind-speed">--</h3>
+            </article>
+
+            <article class="metric-card">
+              <p class="metric-label">Condition</p>
+              <h3 id="condition-text">--</h3>
+            </article>
+          </div>
+        </section>
 
         <section class="details-card">
-          <h3>Additional Details</h3>
+          <h3>Weather Details</h3>
           <div class="details-grid">
             <div class="detail-row">
               <span>Latitude</span>
@@ -80,8 +113,8 @@
               <strong id="timezone">--</strong>
             </div>
             <div class="detail-row">
-              <span>Updated Time</span>
-              <strong id="updated-time">--</strong>
+              <span>Weather Code</span>
+              <strong id="weather-code">--</strong>
             </div>
           </div>
         </section>
