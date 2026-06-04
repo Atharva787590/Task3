@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task3 - Weather Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <main class="app">
+    <section class="weather-dashboard">
+      <header class="header-card">
+        <p class="eyebrow">Task 3</p>
+        <h1>Weather Dashboard</h1>
+        <p class="subtitle">
+          Search any city to fetch live weather data using asynchronous JavaScript and a public REST API.
+        </p>
+      </header>
+
+      <section class="search-card">
+        <form id="weather-form" class="weather-form">
+          <label for="city-input" class="sr-only">Search city</label>
+          <input
+            id="city-input"
+            type="text"
+            placeholder="Enter city name..."
+            autocomplete="off"
+          />
+          <button type="submit">Search</button>
+        </form>
+        <p id="status-message" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section id="weather-result" class="weather-result hidden">
+        <div class="location-card">
+          <div>
+            <p class="label">Location</p>
+            <h2 id="city-name">--</h2>
+            <p id="region-name" class="muted">--</p>
+          </div>
+          <div id="condition-badge" class="condition-badge">--</div>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric-card">
+            <p class="label">Temperature</p>
+            <h3 id="temperature">--</h3>
+          </article>
+
+          <article class="metric-card">
+            <p class="label">Humidity</p>
+            <h3 id="humidity">--</h3>
+          </article>
+
+          <article class="metric-card">
+            <p class="label">Wind Speed</p>
+            <h3 id="wind-speed">--</h3>
+          </article>
+
+          <article class="metric-card">
+            <p class="label">Condition</p>
+            <h3 id="condition-text">--</h3>
+          </article>
+        </div>
+
+        <section class="details-card">
+          <h3>Additional Details</h3>
+          <div class="details-grid">
+            <div class="detail-row">
+              <span>Latitude</span>
+              <strong id="latitude">--</strong>
+            </div>
+            <div class="detail-row">
+              <span>Longitude</span>
+              <strong id="longitude">--</strong>
+            </div>
+            <div class="detail-row">
+              <span>Timezone</span>
+              <strong id="timezone">--</strong>
+            </div>
+            <div class="detail-row">
+              <span>Updated Time</span>
+              <strong id="updated-time">--</strong>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
