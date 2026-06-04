@@ -9,8 +9,11 @@ const statusMessage = document.getElementById("status-message");
 
 const savedTrack = document.getElementById("saved-track");
 const savedEmpty = document.getElementById("saved-empty");
+const scrollLeftBtn = document.getElementById("scroll-left");
+const scrollRightBtn = document.getElementById("scroll-right");
 
 const weatherDashboard = document.getElementById("weather-dashboard");
+
 const locationName = document.getElementById("location-name");
 const locationSubtitle = document.getElementById("location-subtitle");
 const conditionIcon = document.getElementById("condition-icon");
@@ -134,7 +137,6 @@ function mapPlace(result) {
     longitude: result.longitude,
     country: result.country || "",
     region: regionParts.join(", "),
-    timezone: result.timezone || "",
     label: [result.name, ...regionParts].filter(Boolean).join(", "),
   };
 }
@@ -242,7 +244,7 @@ locationInput.addEventListener("input", () => {
 
   state.autocompleteTimer = setTimeout(() => {
     loadAutocomplete(value);
-  }, 350);
+  }, 300);
 });
 
 suggestionsBox.addEventListener("click", async (event) => {
@@ -396,6 +398,14 @@ savedTrack.addEventListener("click", async (event) => {
   await loadWeatherForPlace(place);
 });
 
+scrollLeftBtn.addEventListener("click", () => {
+  savedTrack.scrollBy({ left: -320, behavior: "smooth" });
+});
+
+scrollRightBtn.addEventListener("click", () => {
+  savedTrack.scrollBy({ left: 320, behavior: "smooth" });
+});
+
 savePlaceBtn.addEventListener("click", () => {
   addCurrentPlaceToSaved();
 });
@@ -433,7 +443,13 @@ searchForm.addEventListener("submit", async (event) => {
       return nameMatch || labelMatch;
     });
 
-    if (state.selectedPlace && normalizeText(state.selectedPlace.name) === normalizeText(query)) {
+    if (
+      state.selectedPlace &&
+      (
+        normalizeText(state.selectedPlace.name) === normalizeText(query) ||
+        normalizeText(state.selectedPlace.label) === normalizeText(query)
+      )
+    ) {
       clearSuggestions();
       await loadWeatherForPlace(state.selectedPlace);
       return;
@@ -450,7 +466,7 @@ searchForm.addEventListener("submit", async (event) => {
       throw new Error("Location not found. Please try a valid city or place name.");
     }
 
-    throw new Error("Please select the correct location from the suggestions to avoid wrong results.");
+    throw new Error("Please select the correct place from the suggestions to avoid wrong results.");
   } catch (error) {
     weatherDashboard.classList.add("hidden");
     showStatus(error.message, "#dc2626");
@@ -490,6 +506,17 @@ async function init() {
   state.savedPlaces = loadSavedPlaces();
   renderSavedPlaces();
   await refreshSavedPlacesWeather();
+
+  locationInput.value = "Nagpur";
+  try {
+    const suggestions = await fetchSuggestions("Nagpur");
+    if (suggestions.length > 0) {
+      state.selectedPlace = suggestions[0];
+      await loadWeatherForPlace(suggestions[0]);
+    }
+  } catch (error) {
+    showStatus("Unable to load default weather.", "#dc2626");
+  }
 }
 
 init();
